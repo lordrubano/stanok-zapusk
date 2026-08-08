@@ -1,0 +1,140 @@
+# Чертёж площадки Render: четыре станка, по одному на оператора.
+#
+# НЕ ПРАВИТЬ РУКАМИ. Файл собирается из tools/render_plan.py — там же живут
+# развязка операторов по полкам склада и проверка, что полки не совпали.
+# Пересобрать:  python tools/render_plan.py
+#
+# Полей, которые заполняет человек, здесь нет ни одного: склад — база самой
+# площадки, и строку подключения она подставляет сама. Владельцу остаётся
+# открыть ссылку и нажать кнопку.
+
+services:
+  - type: web
+    name: stanok-operator-1
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: master
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m stanok --узел --учебный --порт $PORT --слушать 0.0.0.0 --наружу "$RENDER_EXTERNAL_HOSTNAME" --рабочий-каталог "/tmp/stanok/operator-01"
+    envVars:
+      - key: PYTHONPATH
+        value: src
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: STANOK_SKLAD_PATH
+        value: operatory/operator-01
+      - key: STANOK_SKLAD_DB
+        fromDatabase:
+          name: stanok-sklad
+          property: connectionString
+
+  - type: web
+    name: stanok-operator-2
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: master
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m stanok --узел --учебный --порт $PORT --слушать 0.0.0.0 --наружу "$RENDER_EXTERNAL_HOSTNAME" --рабочий-каталог "/tmp/stanok/operator-02"
+    envVars:
+      - key: PYTHONPATH
+        value: src
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: STANOK_SKLAD_PATH
+        value: operatory/operator-02
+      - key: STANOK_SKLAD_DB
+        fromDatabase:
+          name: stanok-sklad
+          property: connectionString
+
+  - type: web
+    name: stanok-operator-3
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: master
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m stanok --узел --учебный --порт $PORT --слушать 0.0.0.0 --наружу "$RENDER_EXTERNAL_HOSTNAME" --рабочий-каталог "/tmp/stanok/operator-03"
+    envVars:
+      - key: PYTHONPATH
+        value: src
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: STANOK_SKLAD_PATH
+        value: operatory/operator-03
+      - key: STANOK_SKLAD_DB
+        fromDatabase:
+          name: stanok-sklad
+          property: connectionString
+
+  - type: web
+    name: stanok-operator-4
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: master
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m stanok --узел --учебный --порт $PORT --слушать 0.0.0.0 --наружу "$RENDER_EXTERNAL_HOSTNAME" --рабочий-каталог "/tmp/stanok/operator-04"
+    envVars:
+      - key: PYTHONPATH
+        value: src
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: STANOK_SKLAD_PATH
+        value: operatory/operator-04
+      - key: STANOK_SKLAD_DB
+        fromDatabase:
+          name: stanok-sklad
+          property: connectionString
+
+  - type: web
+    name: stanok-smotr
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: master
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m stanok --узел --учебный --порт $PORT --слушать 0.0.0.0 --наружу "$RENDER_EXTERNAL_HOSTNAME" --рабочий-каталог "/tmp/stanok/smotr"
+    envVars:
+      - key: PYTHONPATH
+        value: src
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: STANOK_SKLAD_PATH
+        value: smotr/vladelec
+      - key: STANOK_SKLAD_DB
+        fromDatabase:
+          name: stanok-sklad
+          property: connectionString
+
+databases:
+  - name: stanok-sklad
+    plan: free
+    region: frankfurt
